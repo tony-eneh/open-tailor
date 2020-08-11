@@ -1,3 +1,9 @@
 import express from "express";
 
-export default express.Router;
+const router = express.Router();
+
+router.use("/", (req, res) => {
+  res.send("got your request");
+});
+
+export default router;
