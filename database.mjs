@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
-const options = { dbname: "open-tailor", useNewUrlParser: true };
+const options = {
+  dbName: "open-tailor",
+  useNewUrlParser: true,
+};
 mongoose.connect(process.env.DB_URL, options);
 
 const database = mongoose.connection;
