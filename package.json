@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node --experimental-modules index.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "load-demo-data": "node --experimental-modules test/test-populate-db.mjs"
   },
   "repository": {
     "type": "git",
