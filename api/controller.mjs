@@ -1,4 +1,5 @@
 import Model from "./model.mjs";
+import { measurements } from "../test/demo-data.mjs";
 
 export const getMeasurement = (req, res) => {
   const { filter, skip, limit, sort, projection } = req.query;
@@ -36,4 +37,15 @@ export const updateMeasurement = (req, res) => {
 
 export const deleteMeasurement = (req, res) => {
   res.send("got your DELETE request");
+};
+
+export const insertDemoMeasurements = (req, res) => {
+  Model.insertMany(measurements, (err, result) => {
+    if (err) {
+      console.error`error occured inserting demo data ${err}`;
+      return res.send("Error inserting your demo data. Try again later");
+    }
+    console.log`demo data inserted, ${result}`;
+    res.send("demo data successfully inserted into your db");
+  });
 };

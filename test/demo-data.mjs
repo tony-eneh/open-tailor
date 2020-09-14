@@ -1,7 +1,4 @@
-import Model from "../api/model.mjs";
-import database from "../database.mjs";
-
-const measurements = [
+export const measurements = [
   {
     email: "ewo@gmail.com",
     gender: "male",
@@ -58,11 +55,3 @@ const measurements = [
     },
   },
 ];
-
-database.once("open", () => {
-  console.log("successfully connected to the database");
-  Model.insertMany(measurements, (err, result) => {
-    if (err) console.error`error occured inserting demo data ${err}`;
-    console.log`demo data inserted, ${result}`;
-  });
-});
