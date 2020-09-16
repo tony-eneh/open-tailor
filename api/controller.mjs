@@ -1,8 +1,9 @@
 import Model from "./model.mjs";
 import { measurements } from "../test/demo-data.mjs";
+import aqp from "api-query-params";
 
 export const getMeasurement = (req, res) => {
-  const { filter, skip, limit, sort, projection } = req.query;
+  const { filter, skip, limit, sort, projection } = aqp(req.query);
   Model.find(filter)
     .skip(skip)
     .limit(limit)
