@@ -29,7 +29,32 @@ export const getMeasurement = (req, res) => {
 };
 
 export const createMeasurement = (req, res) => {
-  res.send("got your POST request");
+  // if body is not an object
+  if (!(typeof req.body === "object" && req.body !== null))
+    return res.status(400).json({
+      success: false,
+      payload: [],
+      message: "Measurement data should be a javascript object",
+    });
+
+  let newData = new Model(req.body);
+  newData
+    .save()
+    .then((result) => {
+      return res.status(200).json({
+        success: true,
+        payload: result || [],
+        message: "Operation Successful",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        payload: [],
+        message: `Sorry we couldn't create your data. Try later. Details: ${err}`,
+      });
+    });
 };
 
 export const updateMeasurement = (req, res) => {
