@@ -4,6 +4,7 @@ const options = {
   dbName: "open-tailor",
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 };
 mongoose.connect(process.env.DB_URL, options);
 console.log(process.env.DB_URL);
