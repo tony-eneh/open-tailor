@@ -81,7 +81,22 @@ export const updateMeasurement = (req, res) => {
 };
 
 export const deleteMeasurement = (req, res) => {
-  res.send("got your DELETE request");
+  const { id } = req.query;
+  Model.findOneAndDelete({ _id: id })
+    .then((result) => {
+      return res.status(200).json({
+        success: true,
+        payload: result || [],
+        message: "Delete Operation Successful",
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        success: false,
+        payload: [],
+        message: `Sorry we couldn't perform the DELETE operation. Try later. Details: ${err}`,
+      });
+    });
 };
 
 export const insertDemoMeasurements = (req, res) => {
