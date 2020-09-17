@@ -58,7 +58,26 @@ export const createMeasurement = (req, res) => {
 };
 
 export const updateMeasurement = (req, res) => {
-  res.send("got your PUT request");
+  const { id } = req.query;
+  const data = req.body;
+  console.log("request id", id);
+  console.log("putted data", data);
+  Model.findOneAndUpdate({ _id: id }, data, { new: true })
+    .then((result) => {
+      return res.status(200).json({
+        success: true,
+        payload: result || [],
+        message: "Update Operation Successful",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        payload: [],
+        message: `Sorry we couldn't update your data. Try later. Details: ${err}`,
+      });
+    });
 };
 
 export const deleteMeasurement = (req, res) => {
