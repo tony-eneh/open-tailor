@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  getMeasurement,
+  getAllMeasurements,
+  getMeasurementById,
   createMeasurement,
   updateMeasurement,
   deleteMeasurement,
@@ -9,14 +10,22 @@ import {
 
 const router = express.Router();
 
-router.get("/", getMeasurement);
+// GET all measurements with query support
+router.get("/", getAllMeasurements);
 
+// GET single measurement by ID
+router.get("/:id", getMeasurementById);
+
+// POST create new measurement
 router.post("/", createMeasurement);
 
-router.put("/", updateMeasurement);
+// PUT update measurement by ID
+router.put("/:id", updateMeasurement);
 
-router.delete("/", deleteMeasurement);
+// DELETE measurement by ID
+router.delete("/:id", deleteMeasurement);
 
-router.post("/test", insertDemoMeasurements);
+// POST demo data for testing
+router.post("/demo/load", insertDemoMeasurements);
 
 export default router;

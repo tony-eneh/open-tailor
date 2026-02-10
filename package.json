@@ -5,9 +5,10 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-modules index.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "load-demo-data": "node --experimental-modules test/test-populate-db.mjs"
+    "start": "node index.mjs",
+    "dev": "node --watch index.mjs",
+    "test": "node --test test/**/*.test.mjs",
+    "load-demo-data": "node test/test-populate-db.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,12 +22,11 @@
   },
   "homepage": "https://github.com/tony-eneh/open-tailor#readme",
   "dependencies": {
-    "api-query-params": "^4.15.0",
+    "api-query-params": "^5.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.22.1",
-    "mongo": "^0.1.0",
-    "mongoose": "^5.13.23"
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.3"
   },
   "devDependencies": {}
 }
