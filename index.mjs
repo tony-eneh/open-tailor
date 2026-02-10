@@ -1,36 +1,70 @@
-// import api route files
-import "dotenv/config.js";
-import apiRouter from "./api/index.mjs";
-import database from "./database.mjs";
-// import dependencies
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import apiRouter from "./api/index.mjs";
+import database from "./database.mjs";
 
 const PORT = process.env.PORT || 3000;
 
-// test db connection
-database.on("error", console.log.bind(console, "error connecting to database"));
-database.once(
-  "open",
-  console.log.bind(console, "successfully connected to database")
-);
+// Database connection handlers
+database.on("error", (err) => {
+  console.error("Error connecting to database:", err);
+});
 
-// initialize express app
+database.once("open", () => {
+  console.log("Successfully connected to database");
+});
+
+// Initialize express app
 const app = express();
 
-//integrate some middlewares
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-//route all traffic using /api path to our router
-app.use("/api", apiRouter);
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    message: "Open Tailor API is running",
+    timestamp: new Date().toISOString(),
+  });
+});
 
-app.use("/", (req, res) =>
-  res.send("Thanks for visiting Open Tailor API homepage")
-);
+// API routes
+app.use("/api/measurements", apiRouter);
 
-//start server
-app.listen(
-  PORT,
-  console.log`express successfully started. Running on port ${PORT}`
-);
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Welcome to Open Tailor API",
+    version: "1.0.0",
+    endpoints: {
+      health: "/health",
+      measurements: "/api/measurements",
+    },
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Endpoint not found",
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal server error",
+  });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Express server running on port ${PORT}`);
+});
